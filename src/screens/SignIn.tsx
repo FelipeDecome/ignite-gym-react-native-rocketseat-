@@ -32,7 +32,7 @@ export function SignIn() {
 			}}
 			showsVerticalScrollIndicator={false}
 		>
-			<VStack bg="$gray700" flex={1}>
+			<VStack flex={1}>
 				<Image
 					alt="Pessoas treinando"
 					h={624}
