@@ -22,12 +22,13 @@ export function HistoryCard({ history }: Props) {
 			rounded="$md"
 			w="$full"
 		>
-			<VStack mr="$5">
+			<VStack flex={1} mr="$5">
 				<Heading
 					color="$white"
 					fontFamily="$heading"
 					fontSize="$md"
 					textTransform="capitalize"
+					numberOfLines={1}
 				>
 					{history.title}
 				</Heading>
