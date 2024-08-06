@@ -4,6 +4,7 @@ import { ScrollView, TouchableOpacity } from "react-native";
 import { ScreenHeader } from "@components/ScreenHeader";
 import { UserPhoto } from "@components/UserPhoto";
 
+import { Input } from "@components/Input";
 import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 
 export function Profile() {
@@ -36,6 +37,11 @@ export function Profile() {
 							Alterar Foto
 						</Text>
 					</TouchableOpacity>
+
+					<Center gap="$4" w="$full">
+						<Input placeholder="Nome" islight />
+						<Input value="decome.felipe@gmail.com" islight isReadOnly />
+					</Center>
 				</Center>
 			</ScrollView>
 		</VStack>
