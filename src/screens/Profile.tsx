@@ -1,9 +1,10 @@
-import { Center, Text, VStack } from "@gluestack-ui/themed";
+import { Center, Heading, Text, VStack } from "@gluestack-ui/themed";
 import { ScrollView, TouchableOpacity } from "react-native";
 
 import { ScreenHeader } from "@components/ScreenHeader";
 import { UserPhoto } from "@components/UserPhoto";
 
+import { Button } from "@components/Button";
 import { Input } from "@components/Input";
 import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 
@@ -41,6 +42,29 @@ export function Profile() {
 					<Center gap="$4" w="$full">
 						<Input placeholder="Nome" islight />
 						<Input value="decome.felipe@gmail.com" islight isReadOnly />
+					</Center>
+
+					<Heading
+						alignSelf="flex-start"
+						color="$gray200"
+						fontSize="$md"
+						fontFamily="$heading"
+						mb="$2"
+						mt="$12"
+					>
+						Alterar senha
+					</Heading>
+
+					<Center gap="$4" w="$full">
+						<Input placeholder="Senha antiga" islight secureTextEntry />
+						<Input placeholder="Nova senha" islight secureTextEntry />
+						<Input
+							placeholder="Confirme a nova senha"
+							islight
+							secureTextEntry
+						/>
+
+						<Button title="Atualizar" />
 					</Center>
 				</Center>
 			</ScrollView>
