@@ -6,24 +6,20 @@ import {
 	Text,
 	VStack,
 } from "@gluestack-ui/themed";
+import { useNavigation } from "@react-navigation/native";
 
 import backgroundImageSrc from "@assets/background.png";
 import Logo from "@assets/logo.svg";
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
+import type { AuthNavigationRoutesProps } from "@routes/auth.routes";
 
 export function SignIn() {
-	// const { signIn } = useAuth();
-	// const { navigate } = useNavigation();
+	const navigation = useNavigation<AuthNavigationRoutesProps>();
 
-	// const handleSignIn = async () => {
-	//   try {
-	//     await signIn();
-	//     navigate('Home');
-	//   } catch (error) {
-	//     console.error(error);
-	//   }
-	// };
+	function handleNewAccount() {
+		navigation.navigate("signUp");
+	}
 
 	return (
 		<ScrollView
@@ -68,7 +64,11 @@ export function SignIn() {
 							Ainda não tem acesso?
 						</Text>
 
-						<Button title="Criar conta" variant="outline" />
+						<Button
+							onPress={handleNewAccount}
+							title="Criar conta"
+							variant="outline"
+						/>
 					</Center>
 				</VStack>
 			</VStack>
