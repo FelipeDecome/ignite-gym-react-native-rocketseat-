@@ -1,7 +1,8 @@
-import { VStack } from "@gluestack-ui/themed";
+import { HStack, Heading, Text, VStack } from "@gluestack-ui/themed";
 import { useState } from "react";
 import { FlatList } from "react-native";
 
+import { ExerciseCard } from "@components/ExerciseCard";
 import { Group } from "@components/Group";
 import { HomeHeader } from "@components/Home/Header";
 
@@ -15,6 +16,29 @@ const muscleGroups = [
 	"Tríceps",
 	"Pernas",
 	"Abdômen",
+];
+
+const exercises = [
+	{
+		name: "Supino reto",
+		sets: 4,
+		reps: 10,
+	},
+	{
+		name: "Supino inclinado",
+		sets: 3,
+		reps: 12,
+	},
+	{
+		name: "Supino declinado",
+		sets: 4,
+		reps: 8,
+	},
+	{
+		name: "Crucifixo",
+		sets: 2,
+		reps: 10,
+	},
 ];
 
 export function Home() {
@@ -46,6 +70,29 @@ export function Home() {
 					minHeight: gluestackUIConfig.tokens.space["11"],
 				}}
 			/>
+
+			<VStack flex={1} px="$8">
+				<HStack alignItems="center" justifyContent="space-between" mb="$5">
+					<Heading color="$gray200" fontSize="$md" fontFamily="$heading">
+						Exercícios
+					</Heading>
+
+					<Text color="$gray200" fontSize="$sm" fontFamily="$body">
+						4
+					</Text>
+				</HStack>
+
+				<FlatList
+					data={exercises}
+					renderItem={({ item }) => <ExerciseCard exercise={item} />}
+					keyExtractor={(item) => item.name}
+					showsVerticalScrollIndicator={false}
+					contentContainerStyle={{
+						gap: gluestackUIConfig.tokens.space["3"],
+						paddingBottom: gluestackUIConfig.tokens.space["5"],
+					}}
+				/>
+			</VStack>
 		</VStack>
 	);
 }
