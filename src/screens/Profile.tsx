@@ -1,14 +1,33 @@
 import { Center, Heading, Text, VStack } from "@gluestack-ui/themed";
+import * as ImagePicker from "expo-image-picker";
 import { ScrollView, TouchableOpacity } from "react-native";
-
-import { ScreenHeader } from "@components/ScreenHeader";
-import { UserPhoto } from "@components/UserPhoto";
 
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
+import { ScreenHeader } from "@components/ScreenHeader";
+import { UserPhoto } from "@components/UserPhoto";
+
+import { useState } from "react";
 import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 
 export function Profile() {
+	const [userPhoto, setUserPhoto] = useState<string>(
+		"https://github.com/felipedecome.png",
+	);
+
+	async function handleUserPhotoSelect() {
+		const photoSelected = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.Images,
+			allowsEditing: true,
+			quality: 1,
+			aspect: [4, 4],
+		});
+
+		if (photoSelected.canceled) return;
+
+		setUserPhoto(photoSelected.assets[0].uri);
+	}
+
 	return (
 		<VStack flex={1}>
 			<ScreenHeader title="Perfil" />
@@ -22,12 +41,12 @@ export function Profile() {
 					<UserPhoto
 						alt="Imagem do usuário"
 						source={{
-							uri: "https://github.com/felipedecome.png",
+							uri: userPhoto,
 						}}
 						size="xl"
 					/>
 
-					<TouchableOpacity>
+					<TouchableOpacity onPress={handleUserPhotoSelect}>
 						<Text
 							color="$green500"
 							fontSize="$md"
