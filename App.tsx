@@ -7,7 +7,7 @@ import { GluestackUIProvider } from "@gluestack-ui/themed";
 import { StatusBar } from "react-native";
 
 import { Loading } from "@components/Loading";
-import { SignUp } from "@screens/SignUp";
+import { Routes } from "@routes/index";
 
 import { config } from "./config/gluestack-ui.config";
 
@@ -25,7 +25,7 @@ export default function App() {
 				translucent
 			/>
 
-			{fontsLoaded ? <SignUp /> : <Loading />}
+			{fontsLoaded ? <Routes /> : <Loading />}
 		</GluestackUIProvider>
 	);
 }
