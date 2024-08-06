@@ -1,6 +1,16 @@
 import { HStack, Heading, Text, VStack } from "@gluestack-ui/themed";
 
-export function HistoryCard() {
+type History = {
+	title: string;
+	description: string;
+	time: string;
+};
+
+type Props = {
+	history: History;
+};
+
+export function HistoryCard({ history }: Props) {
 	return (
 		<HStack
 			alignItems="center"
@@ -19,7 +29,7 @@ export function HistoryCard() {
 					fontSize="$md"
 					textTransform="capitalize"
 				>
-					Costas
+					{history.title}
 				</Heading>
 				<Text
 					color="$gray100"
@@ -27,12 +37,12 @@ export function HistoryCard() {
 					fontSize="$lg"
 					numberOfLines={1}
 				>
-					Puxada frontal
+					{history.description}
 				</Text>
 			</VStack>
 
 			<Text color="$gray300" fontFamily="$body" fontSize="$md">
-				08:56
+				{history.time}
 			</Text>
 		</HStack>
 	);
