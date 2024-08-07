@@ -1,31 +1,77 @@
-import { Center, Heading, Text, VStack } from "@gluestack-ui/themed";
+import { Center, Heading, Text, useToast, VStack } from "@gluestack-ui/themed";
+import * as FileSystem from "expo-file-system";
 import * as ImagePicker from "expo-image-picker";
+import { useState } from "react";
 import { ScrollView, TouchableOpacity } from "react-native";
 
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
 import { ScreenHeader } from "@components/ScreenHeader";
+import { ToastMessage } from "@components/ToastMessage";
 import { UserPhoto } from "@components/UserPhoto";
 
-import { useState } from "react";
 import { gluestackUIConfig } from "../../config/gluestack-ui.config";
+
+const MAX_ALLOWED_PHOTO_SIZE = 5 * 1024 * 1024;
 
 export function Profile() {
 	const [userPhoto, setUserPhoto] = useState<string>(
 		"https://github.com/felipedecome.png",
 	);
 
+	const toast = useToast();
+
 	async function handleUserPhotoSelect() {
-		const photoSelected = await ImagePicker.launchImageLibraryAsync({
-			mediaTypes: ImagePicker.MediaTypeOptions.Images,
-			allowsEditing: true,
-			quality: 1,
-			aspect: [4, 4],
-		});
+		try {
+			const photoSelected = await ImagePicker.launchImageLibraryAsync({
+				mediaTypes: ImagePicker.MediaTypeOptions.Images,
+				allowsEditing: true,
+				quality: 1,
+				aspect: [4, 4],
+			});
 
-		if (photoSelected.canceled) return;
+			if (photoSelected.canceled) return;
 
-		setUserPhoto(photoSelected.assets[0].uri);
+			const photoURI = photoSelected.assets[0].uri;
+
+			if (photoURI) {
+				const photoInfo = await FileSystem.getInfoAsync(photoURI);
+
+				if (!photoInfo.exists) {
+					return toast.show({
+						placement: "top",
+						render: ({ id }) => (
+							<ToastMessage
+								id={id}
+								title="Erro ao selecionar a imagem"
+								description="Infelizmente, não foi possível selecionar a imagem. Tente novamente."
+								action="error"
+								onClose={() => toast.close(id)}
+							/>
+						),
+					});
+				}
+
+				if (photoInfo.exists && photoInfo.size > MAX_ALLOWED_PHOTO_SIZE) {
+					return toast.show({
+						placement: "top",
+						render: ({ id }) => (
+							<ToastMessage
+								id={id}
+								title="Erro ao selecionar a imagem"
+								description="Essa imagem é muito grande. Escolha uma imagem de até 5mb."
+								action="error"
+								onClose={() => toast.close(id)}
+							/>
+						),
+					});
+				}
+
+				setUserPhoto(photoSelected.assets[0].uri);
+			}
+		} catch (error) {
+			console.error(error);
+		}
 	}
 
 	return (
