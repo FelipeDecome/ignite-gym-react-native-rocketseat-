@@ -6,8 +6,10 @@ import {
 	Text,
 	VStack,
 } from "@gluestack-ui/themed";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigation } from "@react-navigation/native";
 import { Controller, useForm } from "react-hook-form";
+import * as yup from "yup";
 
 import backgroundImageSrc from "@assets/background.png";
 import Logo from "@assets/logo.svg";
@@ -21,9 +23,28 @@ type SignUpFormData = {
 	confirmPassword: string;
 };
 
+const schema = yup.object({
+	name: yup.string().required("O campo Nome é obrigatório"),
+	email: yup
+		.string()
+		.email("Email inválido")
+		.required("O campo Email é obrigatório"),
+	password: yup
+		.string()
+		.min(6, "A senha deve ter pelo menos 6 dígitos")
+		.max(24, "A senha deve ter  no máximo 24 dígitos")
+		.required("O campo Senha obrigatório"),
+	confirmPassword: yup
+		.string()
+		.oneOf([yup.ref("password"), ""], "As senhas devem ser iguais")
+		.required("O campo Confirmar a Senha é obrigatório"),
+});
+
 export function SignUp() {
 	const navigation = useNavigation();
-	const { control, formState, handleSubmit } = useForm<SignUpFormData>({});
+	const { control, formState, handleSubmit } = useForm<SignUpFormData>({
+		resolver: yupResolver(schema),
+	});
 	const { errors } = formState;
 
 	function handleGoBack() {
@@ -74,9 +95,6 @@ export function SignUp() {
 									value={value}
 								/>
 							)}
-							rules={{
-								required: "Campo obrigatório",
-							}}
 						/>
 
 						<Controller
@@ -93,13 +111,6 @@ export function SignUp() {
 									value={value}
 								/>
 							)}
-							rules={{
-								required: "Campo obrigatório",
-								pattern: {
-									value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/i,
-									message: "Email inválido",
-								},
-							}}
 						/>
 
 						<Controller
