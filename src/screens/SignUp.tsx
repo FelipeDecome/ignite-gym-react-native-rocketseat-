@@ -45,7 +45,7 @@ export function SignUp() {
 						</Text>
 					</Center>
 
-					<Center flex={1} gap="$2">
+					<Center flex={1} gap="$4">
 						<Heading color="$gray100">Crie sua conta</Heading>
 
 						<Input placeholder="Nome" />
@@ -57,6 +57,8 @@ export function SignUp() {
 						/>
 
 						<Input placeholder="Senha" secureTextEntry />
+
+						<Input placeholder="Confirmar a Senha" secureTextEntry />
 
 						<Button title="Criar e acessar" />
 					</Center>
